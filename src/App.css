@@ -1,0 +1,24 @@
+/* src/App.css */
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.event {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event h2 {
+  margin-top: 0;
+}
+
+.event p {
+  margin: 4px 0;
+}
