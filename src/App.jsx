@@ -10,26 +10,63 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<>
-          <NavigationBar />
-          <Home />
-        </>} />
-        <Route path="/event/:id" element={<>
-          <NavigationBar />
-          <EventDetails />
-        </>} />
-        <Route path="/create" element={<PrivateRoute><>
-          <NavigationBar />
-          <CreateEvent />
-        </></PrivateRoute>} />
-        <Route path="/login" element={<>
-          <NavigationBar />
-          <Login />
-        </>} />
-        <Route path="/signup" element={<>
-          <NavigationBar />
-          <Signup />
-        </>} />
+        {/* Racine */}
+        <Route path="/" element={
+        <main className='flex'>
+          <div className='flex-grow-0'>
+            <NavigationBar />
+          </div>
+          <div className='flex-grow'>
+            <Home />
+          </div>
+        </main>
+        } />
+        {/* Evènement par id */}
+        <Route path="/event/:id" element={
+        <main className='flex'>
+          <div className='flex-grow-0'>
+            <NavigationBar />
+          </div>
+          <div className='flex-grow'>
+            <EventDetails />
+          </div>
+        </main>
+        } />
+        {/* Création d'évènement */}
+        <Route path="/create" element={
+        <PrivateRoute>
+          <main className='flex'>
+            <div className='flex-grow-0'>
+              <NavigationBar />
+            </div>
+            <div className='flex-grow'>
+              <CreateEvent />
+            </div>
+          </main>
+        </PrivateRoute>
+        } />
+        {/* Connexion */}
+        <Route path="/login" element={
+        <main className='flex'>
+          <div className='flex-grow-0'>
+            <NavigationBar />
+          </div>
+          <div className='flex-grow'>
+            <Login />
+          </div>
+        </main>
+        } />
+        {/* Inscription */}
+        <Route path="/signup" element={
+        <main className='flex'>
+          <div className='flex-grow-0'>
+            <NavigationBar />
+          </div>
+          <div className='flex-grow'>
+            <Signup />
+          </div>
+        </main>
+        } />
       </Routes>
     </Router>
   );
@@ -40,12 +77,12 @@ export default App;
 
 function NavigationBar() {
   return (
-    <nav>
-      <ul>
-        <li><Link to="/">Accueil</Link></li>
-        <li><Link to="/create">Créer un événement</Link></li>
-        <li><Link to="/login">Se connecter</Link></li>
-        <li><Link to="/signup">S&apos;inscrire</Link></li>
+    <nav className='text-slate-200 font-bold px-10 py-8'>
+      <ul className='flex flex-col gap-4 items-start'>
+        <li className='hover:text-violet-600'><Link to="/">Accueil</Link></li>
+        <li className='hover:text-violet-600'><Link to="/create">Créer un événement</Link></li>
+        <li className='hover:text-violet-600'><Link to="/login">Se connecter</Link></li>
+        <li className='hover:text-violet-600'><Link to="/signup">S&apos;inscrire</Link></li>
       </ul>
     </nav>
   );
