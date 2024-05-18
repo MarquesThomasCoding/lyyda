@@ -12,7 +12,7 @@ function App() {
       <Routes>
         {/* Racine */}
         <Route path="/" element={
-        <main className='flex'>
+        <main className='flex min-h-screen'>
           <div className='flex-grow-0'>
             <NavigationBar />
           </div>
@@ -23,7 +23,7 @@ function App() {
         } />
         {/* Evènement par id */}
         <Route path="/event/:id" element={
-        <main className='flex'>
+        <main className='flex min-h-screen'>
           <div className='flex-grow-0'>
             <NavigationBar />
           </div>
@@ -35,7 +35,7 @@ function App() {
         {/* Création d'évènement */}
         <Route path="/create" element={
         <PrivateRoute>
-          <main className='flex'>
+          <main className='flex min-h-screen'>
             <div className='flex-grow-0'>
               <NavigationBar />
             </div>
@@ -47,7 +47,7 @@ function App() {
         } />
         {/* Connexion */}
         <Route path="/login" element={
-        <main className='flex'>
+        <main className='flex min-h-screen'>
           <div className='flex-grow-0'>
             <NavigationBar />
           </div>
@@ -58,7 +58,7 @@ function App() {
         } />
         {/* Inscription */}
         <Route path="/signup" element={
-        <main className='flex'>
+        <main className='flex min-h-screen'>
           <div className='flex-grow-0'>
             <NavigationBar />
           </div>
@@ -77,12 +77,12 @@ export default App;
 
 function NavigationBar() {
   return (
-    <nav className='text-slate-200 font-bold px-10 py-8'>
-      <ul className='flex flex-col gap-4 items-start'>
-        <li className='hover:text-violet-600'><Link to="/">Accueil</Link></li>
-        <li className='hover:text-violet-600'><Link to="/create">Créer un événement</Link></li>
-        <li className='hover:text-violet-600'><Link to="/login">Se connecter</Link></li>
-        <li className='hover:text-violet-600'><Link to="/signup">S&apos;inscrire</Link></li>
+    <nav className='text-gray text-lg font-bold py-8 h-full  border-r-[1px] border-slate-600'>
+      <ul className='flex flex-col items-start'>
+        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/">Accueil</Link></li>
+        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/create">Créer un événement</Link></li>
+        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/login">Se connecter</Link></li>
+        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/signup">S&apos;inscrire</Link></li>
       </ul>
     </nav>
   );

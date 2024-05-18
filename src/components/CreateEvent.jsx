@@ -11,6 +11,8 @@ const CreateEvent = () => {
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
 
+  const [showError, setShowError] = useState(false);
+
   const { user, loading: authLoading } = useAuth();
 
   if (authLoading) {
@@ -19,6 +21,12 @@ const CreateEvent = () => {
 
   const handleCreateEvent = async (e) => {
     e.preventDefault();
+
+    if(!title || !description || !date || !time || !location) {
+      setShowError(true);
+      return;
+    }
+
     try {
       // Ajouter le document sans identifiant
       const eventRef = await addDoc(collection(firestore, 'events'), {
@@ -42,35 +50,43 @@ const CreateEvent = () => {
   };
 
   return (
-    <form onSubmit={handleCreateEvent}>
+    <form onSubmit={handleCreateEvent} className='flex flex-col gap-4 m-14 text-slate-200'>
+      {showError && <p className='text-red-400 bg-red-200 border border-red-400 p-4 rounded-xl mt-10'>Vous n'avez pas rempli tous les champs</p>}
       <input 
         type="text" 
         value={title} 
         onChange={(e) => setTitle(e.target.value)} 
         placeholder="Titre de l'événement" 
+        className='mb-4 w-full p-2 rounded-lg bg-notSoDark text-slate-200 border border-slate-600'
       />
       <textarea 
         value={description} 
         onChange={(e) => setDescription(e.target.value)} 
         placeholder="Description de l'événement" 
+        className='mb-4 w-full p-2 rounded-lg bg-notSoDark text-slate-200 border border-slate-600 resize-none h-32'
       />
       <input 
         type="date" 
         value={date} 
         onChange={(e) => setDate(e.target.value)} 
+        className='mb-4 w-full p-2 rounded-lg bg-notSoDark text-slate-200 border border-slate-600'
       />
       <input 
         type="time" 
         value={time} 
         onChange={(e) => setTime(e.target.value)} 
+        className='mb-4 w-full p-2 rounded-lg bg-notSoDark text-slate-200 border border-slate-600'
       />
       <input 
         type="text" 
         value={location} 
         onChange={(e) => setLocation(e.target.value)} 
         placeholder="Lieu de l'événement" 
+        className='mb-4 w-full p-2 rounded-lg bg-notSoDark text-slate-200 border border-slate-600'
       />
-      <button type="submit">Créer l&apos;événement</button>
+      <button 
+      className='w-full bg-gray font-bold p-2 rounded-lg text-notSoDark transition-all hover:bg-notSoDark hover:text-slate-200' 
+      type="submit">Créer l&apos;événement</button>
     </form>
   );
 };
