@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { firestore } from '../firebase';
 import { collection, addDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
   const [title, setTitle] = useState('');
@@ -10,6 +11,7 @@ const CreateEvent = () => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
+  const navigate = useNavigate();
 
   const [showError, setShowError] = useState(false);
 
@@ -44,6 +46,7 @@ const CreateEvent = () => {
 
       // Rediriger ou montrer un message de succès
       console.log('Event created with ID:', eventRef.id);
+      navigate('/');
     } catch (error) {
       console.error("Erreur de création d'événement", error);
     }
@@ -51,7 +54,7 @@ const CreateEvent = () => {
 
   return (
     <form onSubmit={handleCreateEvent} className='flex flex-col gap-4 m-14 text-slate-200'>
-      {showError && <p className='text-red-400 bg-red-200 border border-red-400 p-4 rounded-xl mt-10'>Vous n'avez pas rempli tous les champs</p>}
+      {showError && <p className='text-red-400 bg-red-200 border border-red-400 p-4 rounded-xl'>Vous n'avez pas rempli tous les champs</p>}
       <input 
         type="text" 
         value={title} 
