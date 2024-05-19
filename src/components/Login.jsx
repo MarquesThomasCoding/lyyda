@@ -132,6 +132,7 @@ const Login = () => {
           <CardFooter className="flex-col items-start gap-2">
             <Button variant="secondary" onClick={handleLogin}>Se connecter</Button>
             <Button onClick={handleGoogleSignIn} className="flex items-center">
+              <img className='w-6 mr-2' src='/imgs/google-logo.png' />
               Connexion avec Google
             </Button>
           </CardFooter>
@@ -166,6 +167,7 @@ const Login = () => {
           <CardFooter className="flex-col items-start gap-2">
             <Button variant="secondary" onClick={handleSignup}>S'inscrire</Button>
             <Button onClick={handleGoogleSignIn} className="flex items-center">
+              <img className='w-6 mr-2' src='/imgs/google-logo.png' />
               Inscription avec Google
             </Button>
           </CardFooter>
