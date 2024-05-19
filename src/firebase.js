@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, signOut } from 'firebase/auth';
+import { getAuth, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const firebaseConfig = {
@@ -17,6 +17,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const provider = new GoogleAuthProvider();
 const firestore = getFirestore(app);
 const auth = getAuth(app);
 
@@ -37,4 +38,4 @@ const useLogout = () => {
 };
 
 
-export { analytics, firestore, auth, useLogout };
+export { analytics, firestore, auth, useLogout, signInWithPopup, provider };

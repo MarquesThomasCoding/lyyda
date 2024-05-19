@@ -4,53 +4,174 @@ import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
+// import { Google } from 'lucide-react';
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { firestore, provider, signInWithPopup } from '../firebase';
+
+import { toast } from "sonner"
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      toast.success("Vous êtes connecté avec Google");
+      navigate('/');
+    } catch (error) {
+      toast.error("Une erreur est survenue lors de la connexion avec Google");
+      console.error(error);
+    }
+  };
+
+  const handleLogin = async () => {
     setError('');
+
+    if (!email || !password) {
+      setError('Vous devez renseigner une adresse email et un mot de passe');
+      return;
+    }
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate('/');
     } catch (err) {
-      setError(err.message);
+      if (err.code === 'auth/invalid-credential') {
+        setError('Utilisateur introuvable');
+      } else {
+        setError(err.message);
+      }
+    }
+  };
+
+  const handleSignup = async () => {
+    const passwordMatch = password === document.getElementById('password-match').value;
+    setError('');
+
+    if (!passwordMatch) {
+      setError('Les mots de passe ne correspondent pas');
+      return;
+    }
+
+    if (!email || !password || !username) {
+      setError('Vous devez renseigner un pseudo, une adresse email et un mot de passe');
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Stocker les informations de l'utilisateur dans Firestore
+      await setDoc(doc(firestore, 'users', user.uid), {
+        email: user.email,
+        id: user.uid,
+        username,
+      });
+
+      navigate('/');
+    } catch (err) {
+      if (err.code === 'auth/email-already-in-use') {
+        setError('Cette addresse email est déjà utilisée');
+      } else if (err.code === 'auth/weak-password') {
+        setError('Le mot de passe doit contenir au moins 6 caractères');
+      } else {
+        setError(err.message);
+      }
     }
   };
 
   return (
-    <div>
-      <h1>Se connecter</h1>
+    <Tabs defaultValue="login" className="w-[400px] m-auto">
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Mot de passe:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Se connecter</button>
-      </form>
-      <p>
-        Pas encore inscrit? <a href="/signup">Créer un compte</a>
-      </p>
-    </div>
+      <TabsList className="grid w-full grid-cols-2 bg-slate-800">
+        <TabsTrigger value="login">Se connecter</TabsTrigger>
+        <TabsTrigger value="signup">S'inscrire</TabsTrigger>
+      </TabsList>
+      <TabsContent value="login">
+        <Card className="bg-slate-800 border-none text-slate-200">
+          <CardHeader>
+            <CardTitle>Se connecter</CardTitle>
+            <CardDescription>
+              Vous avez déjà un compte ? Connectez-vous avec votre adresse email et votre mot de passe.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="email">Email <span className="text-red-600">*</span></Label>
+              <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" className="bg-slate-900 border-slate-500 text-slate-200" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="password">Mot de passe <span className="text-red-600">*</span></Label>
+              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" className="bg-slate-900 border-slate-500 text-slate-200" />
+            </div>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2">
+            <Button variant="secondary" onClick={handleLogin}>Se connecter</Button>
+            <Button onClick={handleGoogleSignIn} className="flex items-center">
+              Connexion avec Google
+            </Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
+      <TabsContent value="signup">
+        <Card className="bg-slate-800 border-slate-500 text-slate-200">
+          <CardHeader>
+            <CardTitle>S'inscrire</CardTitle>
+            <CardDescription>
+              Pas encore de compte ? Créez-en un en renseignant votre adresse email, un mot de passe, et un pseudo.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+          <div className="space-y-1">
+              <Label value={username} htmlFor="username">Pseudo <span className="text-red-600">*</span></Label>
+              <Input onChange={(e) => setUsername(e.target.value)} id="username" type="text" className="bg-slate-900 border-slate-500 text-slate-200" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="email">Email <span className="text-red-600">*</span></Label>
+              <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" className="bg-slate-900 border-slate-500 text-slate-200" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="password">Mot de passe <span className="text-red-600">*</span></Label>
+              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" className="bg-slate-900 border-slate-500 text-slate-200" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="password-match">Confirmer le mot de passe <span className="text-red-600">*</span></Label>
+              <Input id="password-match" type="password" className="bg-slate-900 border-slate-500 text-slate-200" />
+            </div>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2">
+            <Button variant="secondary" onClick={handleSignup}>S'inscrire</Button>
+            <Button onClick={handleGoogleSignIn} className="flex items-center">
+              Inscription avec Google
+            </Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
+    </Tabs>
   );
 };
 

@@ -1,67 +1,34 @@
-// src/components/EventDetails.jsx
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { firestore } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Button } from "@/components/ui/button"
+import { useState } from 'react';
 
-const EventDetails = () => {
-  const { id } = useParams();
-  const [event, setEvent] = useState(null);
-  const [creator, setCreator] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+function EventDetails({ event }) {
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchEventAndCreator = async () => {
-      try {
-        // Récupération de l'événement
-        const eventDoc = await getDoc(doc(firestore, 'events', id));
-        if (eventDoc.exists()) {
-          const eventData = eventDoc.data();
-          setEvent(eventData);
-
-          // Récupération du créateur
-          const creatorDoc = await getDoc(doc(firestore, 'users', eventData.creator));
-          if (creatorDoc.exists()) {
-            setCreator(creatorDoc.data());
-          } else {
-            setError('Créateur non trouvé');
-          }
-        } else {
-          setError('Événement non trouvé');
-        }
-      } catch (err) {
-        setError('Erreur de chargement : ' + err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEventAndCreator();
-  }, [id]);
-
-  if (loading) {
-    return <p>Chargement des détails de l&apos;événement...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
-  return (
-    <div>
-      {event && (
-        <div>
-          <h1>{event.title}</h1>
-          <p>{event.description}</p>
-          <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-          <p>Heure: {event.time}</p>
-          <p>Lieu: {event.location}</p>
-          {creator && <p>Créé par: {creator.email}</p>}
-        </div>
-      )}
-    </div>
-  );
-};
+  return <Drawer open={open} onOpenChange={setOpen}>
+  <DrawerTrigger><Button variant="secondary" className="flex gap-2"><i className="fi fi-bs-eye"></i>Voir plus</Button></DrawerTrigger>
+  <DrawerContent className="bg-slate-800 text-slate-200 border-slate-600">
+    <DrawerHeader>
+      <DrawerTitle>{event.title}</DrawerTitle>
+      <DrawerDescription>{event.description}</DrawerDescription>
+      <DrawerDescription><i className="fi fi-bs-map-marker-home"></i> {event.location}</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <DrawerClose>
+        <Button variant="secondary">Fermer</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+}
 
 export default EventDetails;
