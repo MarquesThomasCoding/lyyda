@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { collection, query, orderBy } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { MapPin } from 'lucide-react';
+import { Search, MapPin } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import EventDetails from './EventDetails';
@@ -57,8 +58,9 @@ function SearchBar({ search, setSearch }) {
     }
 
     return (
-        <div className="flex mt-10 w-auto items-center space-x-2">
-            <Input type="text" placeholder="Recherchez un évènement" value={search} onChange={handleSearch} />
+        <div className="relative flex w-auto items-center space-x-2 mt-20">
+            <Search className='absolute top-2 left-4 text-zinc-400' />
+            <Input className="pl-10" type="text" placeholder="Recherchez un évènement" value={search} onChange={handleSearch} />
         </div>
     )
 }
