@@ -57,6 +57,7 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      toast.success("Vous êtes connecté");
       navigate('/');
     } catch (err) {
       if (err.code === 'auth/invalid-credential') {
@@ -91,7 +92,7 @@ const Login = () => {
         id: user.uid,
         username,
       });
-
+      toast.success("Votre compte a été créé avec succès");
       navigate('/');
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
@@ -107,12 +108,12 @@ const Login = () => {
   return (
     <Tabs defaultValue="login" className="w-[400px] m-auto">
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <TabsList className="grid w-full grid-cols-2 bg-slate-800">
+      <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="login">Se connecter</TabsTrigger>
-        <TabsTrigger value="signup">S'inscrire</TabsTrigger>
+        <TabsTrigger value="signup">S&#39;inscrire</TabsTrigger>
       </TabsList>
       <TabsContent value="login">
-        <Card className="bg-slate-800 border-none text-slate-200">
+        <Card>
           <CardHeader>
             <CardTitle>Se connecter</CardTitle>
             <CardDescription>
@@ -122,16 +123,16 @@ const Login = () => {
           <CardContent className="space-y-2">
             <div className="space-y-1">
               <Label htmlFor="email">Email <span className="text-red-600">*</span></Label>
-              <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" className="bg-slate-900 border-slate-500 text-slate-200" />
+              <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="password">Mot de passe <span className="text-red-600">*</span></Label>
-              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" className="bg-slate-900 border-slate-500 text-slate-200" />
+              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" />
             </div>
           </CardContent>
           <CardFooter className="flex-col items-start gap-2">
-            <Button variant="secondary" onClick={handleLogin}>Se connecter</Button>
-            <Button onClick={handleGoogleSignIn} className="flex items-center">
+            <Button onClick={handleLogin}>Se connecter</Button>
+            <Button variant='outline' onClick={handleGoogleSignIn} className="flex items-center">
               <img className='w-6 mr-2' src='/imgs/google-logo.png' />
               Connexion avec Google
             </Button>
@@ -139,9 +140,9 @@ const Login = () => {
         </Card>
       </TabsContent>
       <TabsContent value="signup">
-        <Card className="bg-slate-800 border-slate-500 text-slate-200">
+        <Card>
           <CardHeader>
-            <CardTitle>S'inscrire</CardTitle>
+            <CardTitle>S&apos;inscrire</CardTitle>
             <CardDescription>
               Pas encore de compte ? Créez-en un en renseignant votre adresse email, un mot de passe, et un pseudo.
             </CardDescription>
@@ -149,24 +150,24 @@ const Login = () => {
           <CardContent className="space-y-2">
           <div className="space-y-1">
               <Label value={username} htmlFor="username">Pseudo <span className="text-red-600">*</span></Label>
-              <Input onChange={(e) => setUsername(e.target.value)} id="username" type="text" className="bg-slate-900 border-slate-500 text-slate-200" />
+              <Input onChange={(e) => setUsername(e.target.value)} id="username" type="text" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="email">Email <span className="text-red-600">*</span></Label>
-              <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" className="bg-slate-900 border-slate-500 text-slate-200" />
+              <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="password">Mot de passe <span className="text-red-600">*</span></Label>
-              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" className="bg-slate-900 border-slate-500 text-slate-200" />
+              <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" />
             </div>
             <div className="space-y-1">
               <Label htmlFor="password-match">Confirmer le mot de passe <span className="text-red-600">*</span></Label>
-              <Input id="password-match" type="password" className="bg-slate-900 border-slate-500 text-slate-200" />
+              <Input id="password-match" type="password" />
             </div>
           </CardContent>
           <CardFooter className="flex-col items-start gap-2">
-            <Button variant="secondary" onClick={handleSignup}>S'inscrire</Button>
-            <Button onClick={handleGoogleSignIn} className="flex items-center">
+            <Button onClick={handleSignup}>S&apos;inscrire</Button>
+            <Button variant='outline' onClick={handleGoogleSignIn} className="flex items-center">
               <img className='w-6 mr-2' src='/imgs/google-logo.png' />
               Inscription avec Google
             </Button>

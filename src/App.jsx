@@ -9,7 +9,7 @@ function App() {
       <Routes>
         {/* Racine */}
         <Route path="/" element={
-        <main className='flex min-h-screen bg-slate-900'>
+        <main className='flex min-h-screen bg-zinc-200'>
           <div className='flex-grow-0'>
             <NavigationBar />
           </div>
@@ -20,7 +20,7 @@ function App() {
         } />
         {/* Connexion */}
         <Route path="/login" element={
-        <main className='flex min-h-screen bg-slate-900'>
+        <main className='flex min-h-screen bg-zinc-200'>
           <div className='flex-grow-0'>
             <NavigationBar />
           </div>
@@ -30,7 +30,7 @@ function App() {
         </main>
         } />
       </Routes>
-      <Toaster richColors className="bg-slate-600" />
+      <Toaster richColors className="bg-zinc-400" />
     </Router>
   );
 }
@@ -40,11 +40,10 @@ export default App;
 
 function NavigationBar() {
   return (
-    <nav className='text-slate-400 text-lg font-bold py-8 h-full  border-r-[1px] border-slate-600'>
+    <nav className='text-lg font-bold py-8 h-full  border-r-[1px] border-zinc-400'>
       <ul className='flex flex-col items-start'>
-        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/">Accueil</Link></li>
-        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/login">Se connecter</Link></li>
-        <li className='w-full hover:bg-slate-700 hover:text-slate-200'><Link className='flex w-full px-10 py-2' to="/signup">S&apos;inscrire</Link></li>
+        <li className='w-full hover:bg-zinc-700 hover:text-zinc-200'><Link className='flex w-full px-10 py-2' to="/">Accueil</Link></li>
+        <li className='w-full hover:bg-zinc-700 hover:text-zinc-200'><Link className='flex w-full px-10 py-2' to="/login">Se connecter</Link></li>
       </ul>
     </nav>
   );

@@ -1,14 +1,24 @@
+/* eslint-disable react/display-name */
 import { useState } from 'react';
 import { firestore } from '../firebase';
 import { collection, addDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../hooks/useAuth';
+import { useLogout } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-
-import { CirclePlus, Clock } from 'lucide-react';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuGroup
+} from "@/components/ui/dropdown-menu"
+import { LogOut, User, Calendar, GalleryVerticalEnd, PlusCircle, MoveDown } from 'lucide-react';
 import { DatePickerWithRange } from './DatePicker';
 import { addDays } from "date-fns";
 
@@ -26,6 +36,8 @@ import TimePicker from './TimePicker';
 
 
 function CreateEvent() {
+  const {logout} = useLogout();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDateRange, setSelectedDateRange] = useState({
@@ -82,27 +94,41 @@ function CreateEvent() {
   };
 
   return (
-    <Sheet>
-      <SheetTrigger><Button variant='outline' size='icon' className="bg-slate-900 border-none"><CirclePlus /></Button></SheetTrigger>
-      <SheetContent className="bg-slate-900 border-slate-500">
-        <SheetHeader>
-          <SheetTitle className="text-slate-200">Créer un évènement</SheetTitle>
-          <SheetDescription>
-            <form onSubmit={handleCreateEvent} className='flex flex-col gap-4 text-slate-200'>
-              {showError && <p className='text-red-600 bg-red-200 border border-red-600 p-4 rounded-xl'>Vous n'avez pas rempli tous les champs</p>}
-              <Input className="bg-slate-800 border-slate-500" type="text" placeholder="Titre de l'évènement" value={title} onChange={(e) => setTitle(e.target.value)}/>
-              <Textarea className="bg-slate-800 border-slate-500 resize-none h-32" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description de l'événement" />
-              <DatePickerWithRange onDateChange={handleDateChange} />
-              <TimePicker selectedTime={time} onTimeChange={handleTimeChange} />
-              <Input className="bg-slate-800 border-slate-500" type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lieu de l'événement" />
-              <Button type="submit" variant='secondary'>Créer l&apos;événement</Button>
-            </form>
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
-  );
+      <Sheet>
+        <DropdownMenu modal={false}>
+            <DropdownMenuTrigger><MoveDown className="mr-2 h-4 w-4" /></DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem><User className="mr-2 h-4 w-4" />Profil</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuItem><SheetTrigger className='flex items-center'><PlusCircle className="mr-2 h-4 w-4" />Créer un évènement</SheetTrigger></DropdownMenuItem>
+                    <DropdownMenuItem><Calendar className="mr-2 h-4 w-4" />Mes évènements</DropdownMenuItem>
+                    <DropdownMenuItem><GalleryVerticalEnd className="mr-2 h-4 w-4" />Mes participations</DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logout}><LogOut className="mr-2 h-4 w-4" />Me déconnecter</DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Créer un évènement</SheetTitle>
+            <SheetDescription>
+              <form onSubmit={handleCreateEvent} className='flex flex-col gap-4 text-slate-200'>
+                {showError && <p className='text-red-600 bg-red-200 border border-red-600 p-4 rounded-xl'>Vous n&#39;avez pas rempli tous les champs</p>}
+                <Input type="text" placeholder="Titre de l'évènement" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                <Textarea className=" resize-none h-32" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description de l'événement" />
+                <DatePickerWithRange onDateChange={handleDateChange} />
+                <TimePicker selectedTime={time} onTimeChange={handleTimeChange} />
+                <Input  type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lieu de l'événement" />
+                <Button type="submit">Créer l&apos;événement</Button>
+              </form>
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
+  )
 }
-
 
 export default CreateEvent;

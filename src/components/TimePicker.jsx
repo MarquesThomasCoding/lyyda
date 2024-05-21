@@ -31,13 +31,13 @@ function TimePicker({ selectedTime, onTimeChange }) {
     return (
         <Popover>
             <PopoverTrigger asChild>
-            <Button variant={"outline"} className="flex justify-start items-center gap-2 bg-slate-800 text-slate-200 border-slate-500">
+            <Button variant={"outline"} className="flex justify-start items-center gap-2">
                 <Clock />
                 {format(time, 'HH:mm')}
             </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0">
-                <Input type="time" value={inputValue} onChange={handleTimeChange} className="bg-slate-800 border-slate-500 text-slate-200" />
+                <Input type="time" value={inputValue} onChange={handleTimeChange} />
             </PopoverContent>
         </Popover>
     )
