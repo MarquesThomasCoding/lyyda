@@ -108,7 +108,7 @@ const Login = () => {
   return (
     <Tabs defaultValue="login" className="w-[400px] m-auto">
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 bg-zinc-200">
         <TabsTrigger value="login">Se connecter</TabsTrigger>
         <TabsTrigger value="signup">S&#39;inscrire</TabsTrigger>
       </TabsList>

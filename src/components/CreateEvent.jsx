@@ -3,27 +3,18 @@ import { useState } from 'react';
 import { firestore } from '../firebase';
 import { collection, addDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../hooks/useAuth';
-import { useLogout } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuGroup
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut, User, Calendar, GalleryVerticalEnd, PlusCircle } from 'lucide-react';
+
 import { DatePickerWithRange } from './DatePicker';
 import { addDays } from "date-fns";
 
 import { toast } from "sonner"
+
+import { PlusCircle } from 'lucide-react';
 
 import {
   Sheet,
@@ -37,7 +28,6 @@ import TimePicker from './TimePicker';
 
 
 function CreateEvent() {
-  const {logout} = useLogout();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -96,27 +86,9 @@ function CreateEvent() {
 
   return (
       <Sheet>
-        <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
-              <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem><User className="mr-2 h-4 w-4" />Profil</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem><SheetTrigger className='flex items-center'><PlusCircle className="mr-2 h-4 w-4" />Créer un évènement</SheetTrigger></DropdownMenuItem>
-                    <DropdownMenuItem><Calendar className="mr-2 h-4 w-4" />Mes évènements</DropdownMenuItem>
-                    <DropdownMenuItem><GalleryVerticalEnd className="mr-2 h-4 w-4" />Mes participations</DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout}><LogOut className="mr-2 h-4 w-4" />Me déconnecter</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        {user &&
+        <SheetTrigger className='flex items-center'><Button ><PlusCircle className="mr-2 h-4 w-4" />Créer un évènement</Button></SheetTrigger>
+        }
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Créer un évènement</SheetTitle>

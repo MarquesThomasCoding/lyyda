@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import Profile from './components/Profile';
 import { Toaster } from "@/components/ui/sonner"
 
 function App() {
@@ -17,12 +18,20 @@ function App() {
         } />
         {/* Connexion */}
         <Route path="/login" element={
-        <main className='flex min-h-screen bg-zinc-200'>
+        <main className='flex min-h-screen bg-zinc-100'>
           <div className='flex flex-grow'>
             <Login />
           </div>
         </main>
         } />
+        <Route path="/profile" element={
+        <main className='flex min-h-screen bg-zinc-100'>
+          <div className='flex flex-grow'>
+            <Profile />
+          </div>
+        </main>
+        } />
+        <Route path="*" element={<h1>404</h1>} />
       </Routes>
       <Toaster richColors className="bg-zinc-400" />
     </Router>
