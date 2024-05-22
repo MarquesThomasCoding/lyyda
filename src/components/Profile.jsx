@@ -1,6 +1,15 @@
 import NavBar from "./NavBar";
 import useAuth from '../hooks/useAuth';
 import useUserData from '../hooks/useUserData';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+  
 
 function Profile() {
     const { user, loading } = useAuth();
@@ -22,16 +31,25 @@ function Profile() {
         <>
             <NavBar />
             
-            <div>
-                <p>{userData.username}</p>
-                <p>Description</p>
-                <p>Rejoint le</p>
-                <p>Evénements créés</p>
-                <p>Evénements rejoins</p>
-                <p>Abonnés</p>
-                <p>Abonnements</p>
-                <p>Tags</p>
-            </div>
+            <Card className="m-auto mt-20">
+                <CardHeader>
+                    <CardTitle>Votre profil</CardTitle>
+                    <CardDescription></CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p>{userData.username}</p>
+                    <p>Description</p>
+                    <p>Rejoint le</p>
+                    <p>Evénements créés</p>
+                    <p>Evénements rejoins</p>
+                    <p>Abonnés</p>
+                    <p>Abonnements</p>
+                    <p>Tags</p>
+                </CardContent>
+                <CardFooter>
+                    <p>Card Footer</p>
+                </CardFooter>
+            </Card>
         </>
     )
 }
