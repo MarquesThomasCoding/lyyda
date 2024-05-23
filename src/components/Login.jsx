@@ -1,10 +1,8 @@
-// src/components/Login.jsx
 import { useState } from 'react';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-// import { Google } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -25,7 +23,7 @@ import {
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { firestore, provider, signInWithPopup } from '../firebase';
+import { firestore, signInWithGoogle } from '../firebase';
 
 import { toast } from "sonner"
 
@@ -38,14 +36,13 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, provider);
-      toast.success("Vous êtes connecté avec Google");
+      await signInWithGoogle();
       navigate('/');
-    } catch (error) {
-      toast.error("Une erreur est survenue lors de la connexion avec Google");
-      console.error(error);
+    } catch (err) {
+      console.error('Error signing in with Google', err);
     }
   };
+
 
   const handleLogin = async () => {
     setError('');
@@ -91,6 +88,7 @@ const Login = () => {
         email: user.email,
         id: user.uid,
         username,
+        bio: ''
       });
       toast.success("Votre compte a été créé avec succès");
       navigate('/');

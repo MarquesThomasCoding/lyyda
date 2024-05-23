@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { setHours, setMinutes } from 'date-fns';
 import { useState, useEffect } from 'react';
 import { Popover, PopoverTrigger, PopoverContent } from './ui/popover';
@@ -32,7 +33,7 @@ function TimePicker({ selectedTime, onTimeChange }) {
         <Popover>
             <PopoverTrigger asChild>
             <Button variant={"outline"} className="flex justify-start items-center gap-2">
-                <Clock />
+                <Clock className="mr-2 h-4 w-4" />
                 {format(time, 'HH:mm')}
             </Button>
             </PopoverTrigger>

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-import { getAuth, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getAuth, signOut, GoogleAuthProvider, signInWithPopup,onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const firebaseConfig = {
@@ -17,9 +17,36 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 const firestore = getFirestore(app);
 const auth = getAuth(app);
+
+const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+    if (user) {
+      const userRef = doc(firestore, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+
+      if (!userDoc.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          username: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          bio: ''
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error signing in with Google', error);
+  }
+};
+
+const authStateListener = (callback) => {
+  return onAuthStateChanged(auth, callback);
+};
 
 const useLogout = () => {
   const navigate = useNavigate();
@@ -38,4 +65,4 @@ const useLogout = () => {
 };
 
 
-export { analytics, firestore, auth, useLogout, signInWithPopup, provider };
+export { analytics, firestore, auth, useLogout, signInWithGoogle, authStateListener };

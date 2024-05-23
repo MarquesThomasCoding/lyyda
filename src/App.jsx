@@ -3,8 +3,30 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import { Toaster } from "@/components/ui/sonner"
+import { useEffect, useState } from 'react';
+import { authStateListener } from './firebase';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = authStateListener((user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
+
   return (
     <Router>
       <Routes>
@@ -26,7 +48,7 @@ function App() {
         } />
         <Route path="/profile" element={
         <main className='flex min-h-screen bg-zinc-100'>
-          <div className='flex flex-grow'>
+          <div className='flex w-full'>
             <Profile />
           </div>
         </main>
