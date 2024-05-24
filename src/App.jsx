@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/sonner"
 import { useEffect, useState } from 'react';
 import { authStateListener } from './firebase';
 import EventsJoined from './components/EventsJoined';
+import EventsCreated from './components/EventsCreated';
+import { ThemeProvider } from "@/components/theme-provider"
 
 function App() {
   const [user, setUser] = useState(null);
@@ -30,11 +32,12 @@ function App() {
   }
 
   return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <Router>
       <Routes>
         {/* Racine */}
         <Route path="/" element={
-        <main className='flex min-h-screen bg-zinc-100'>
+        <main className='flex min-h-screen'>
           <div className='flex-grow'>
             <Home />
           </div>
@@ -42,7 +45,7 @@ function App() {
         } />
         {/* Connexion */}
         <Route path="/login" element={
-        <main className='flex min-h-screen bg-zinc-100'>
+        <main className='flex min-h-screen'>
           <div className='flex flex-grow'>
             <Login />
           </div>
@@ -51,7 +54,7 @@ function App() {
         {/* Profil */}
         <Route path="/profile" element={
           <PrivateRoute>
-            <main className='flex min-h-screen bg-zinc-100'>
+            <main className='flex min-h-screen'>
               <div className='flex w-full'>
                 <Profile />
               </div>
@@ -61,9 +64,19 @@ function App() {
         {/* Evènements rejoints */}
         <Route path="/joined" element={
           <PrivateRoute>
-            <main className='flex min-h-screen bg-zinc-100'>
+            <main className='flex min-h-screen'>
               <div className='flex w-full'>
                 <EventsJoined />
+              </div>
+            </main>
+          </PrivateRoute>
+        } />
+        {/* Evènements créés */}
+        <Route path="/myevents" element={
+          <PrivateRoute>
+            <main className='flex min-h-screen'>
+              <div className='flex w-full'>
+                <EventsCreated />
               </div>
             </main>
           </PrivateRoute>
@@ -73,6 +86,7 @@ function App() {
       </Routes>
       <Toaster richColors className="bg-zinc-400" />
     </Router>
+    </ThemeProvider>
   );
 }
 

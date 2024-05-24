@@ -1,12 +1,8 @@
 import {
     NavigationMenu,
-    // NavigationMenuContent,
-    // NavigationMenuIndicator,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    // NavigationMenuTrigger,
-    // NavigationMenuViewport,
     navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import {
@@ -19,6 +15,8 @@ import { Link } from 'react-router-dom';
 import CreateEvent from "./CreateEvent";
 import useAuth from '../hooks/useAuth';
 import DropDown from "./DropDown";
+import { Home } from 'lucide-react';
+import { ModeToggle } from "./mode-toggle";
 
 function NavBar() {
     const { user, loading: authLoading } = useAuth();
@@ -27,10 +25,10 @@ function NavBar() {
         return <p>Chargement de l&apos;utilisateur...</p>;
     }
     return (
-        <NavigationMenu className="fixed top-0 left-0 justify-end items-center bg-zinc-100 border-b border-zinc-300 p-2 w-screen max-w-screen pr-6">
-        <NavigationMenuList>
+        <NavigationMenu className="fixed top-0 left-0 justify-end items-center border-b p-2 w-screen max-w-screen pr-6">
+        <NavigationMenuList className="flex gap-2">
             <NavigationMenuItem>
-                    <Link className={navigationMenuTriggerStyle()} to="/"><NavigationMenuLink>Lyyda</NavigationMenuLink></Link>
+                    <Link className={navigationMenuTriggerStyle()} to="/"><NavigationMenuLink className="flex items-center"><Home className="mr-2 h-4 w-4" />Accueil</NavigationMenuLink></Link>
             </NavigationMenuItem>
             {!user &&
             <NavigationMenuItem>
@@ -48,6 +46,9 @@ function NavBar() {
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
+            <NavigationMenuItem>
+                <ModeToggle />
+            </NavigationMenuItem>
         </NavigationMenuList>
         </NavigationMenu>
     )

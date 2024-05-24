@@ -26,6 +26,8 @@ import { doc, setDoc } from 'firebase/firestore';
 import { firestore, signInWithGoogle } from '../firebase';
 
 import { toast } from "sonner"
+import { Separator } from './ui/separator';
+import { LogIn } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -114,8 +116,16 @@ const Login = () => {
         <Card>
           <CardHeader>
             <CardTitle>Se connecter</CardTitle>
-            <CardDescription>
-              Vous avez déjà un compte ? Connectez-vous avec votre adresse email et votre mot de passe.
+            <CardDescription className="flex flex-col items-center justify-center">
+              <Button variant='outline' onClick={handleGoogleSignIn} className="flex items-center my-4">
+                <img className='w-6 mr-2' src='/imgs/google-logo.png' />
+                Connexion avec Google
+              </Button>
+              <div className='flex justify-between items-center w-full'>
+                <Separator className="w-5/12" />
+                <span>ou</span>
+                <Separator className="w-5/12" />
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -128,12 +138,8 @@ const Login = () => {
               <Input value={password} onChange={(e) => setPassword(e.target.value)} id="password" type="password" />
             </div>
           </CardContent>
-          <CardFooter className="flex-col items-start gap-2">
-            <Button onClick={handleLogin}>Se connecter</Button>
-            <Button variant='outline' onClick={handleGoogleSignIn} className="flex items-center">
-              <img className='w-6 mr-2' src='/imgs/google-logo.png' />
-              Connexion avec Google
-            </Button>
+          <CardFooter>
+            <Button onClick={handleLogin}><LogIn className="mr-2 h-4 w-4" /><p>Se connecter</p></Button>
           </CardFooter>
         </Card>
       </TabsContent>
@@ -141,8 +147,16 @@ const Login = () => {
         <Card>
           <CardHeader>
             <CardTitle>S&apos;inscrire</CardTitle>
-            <CardDescription>
-              Pas encore de compte ? Créez-en un en renseignant votre adresse email, un mot de passe, et un pseudo.
+            <CardDescription className="flex flex-col items-center justify-center">
+              <Button variant='outline' onClick={handleGoogleSignIn} className="flex items-center my-4">
+                <img className='w-6 mr-2' src='/imgs/google-logo.png' />
+                Inscription avec Google
+              </Button>
+              <div className='flex justify-between items-center w-full'>
+                <Separator className="w-5/12" />
+                <span>ou</span>
+                <Separator className="w-5/12" />
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -163,12 +177,8 @@ const Login = () => {
               <Input id="password-match" type="password" />
             </div>
           </CardContent>
-          <CardFooter className="flex-col items-start gap-2">
-            <Button onClick={handleSignup}>S&apos;inscrire</Button>
-            <Button variant='outline' onClick={handleGoogleSignIn} className="flex items-center">
-              <img className='w-6 mr-2' src='/imgs/google-logo.png' />
-              Inscription avec Google
-            </Button>
+          <CardFooter>
+            <Button onClick={handleSignup}><LogIn className="mr-2 h-4 w-4" /><p>S&apos;inscrire</p></Button>
           </CardFooter>
         </Card>
       </TabsContent>

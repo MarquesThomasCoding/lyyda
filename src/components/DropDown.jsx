@@ -50,8 +50,8 @@ function DropDown() {
                 <Link to="/profile"><DropdownMenuItem className='cursor-pointer'><User className="mr-2 h-4 w-4" />Profil</DropdownMenuItem></Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem><Calendar className="mr-2 h-4 w-4" />Mes évènements</DropdownMenuItem>
-                    <Link to="/joined"><DropdownMenuItem><GalleryVerticalEnd className="mr-2 h-4 w-4" />Mes participations</DropdownMenuItem></Link>
+                    <Link to="/myevents"><DropdownMenuItem className='cursor-pointer'><Calendar className="mr-2 h-4 w-4" />Mes évènements</DropdownMenuItem></Link>
+                    <Link to="/joined"><DropdownMenuItem className='cursor-pointer'><GalleryVerticalEnd className="mr-2 h-4 w-4" />Mes participations</DropdownMenuItem></Link>
                 </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout} className='cursor-pointer'><LogOut className="mr-2 h-4 w-4" />Me déconnecter</DropdownMenuItem>

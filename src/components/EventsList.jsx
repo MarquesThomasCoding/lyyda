@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { collection, query, orderBy } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Search, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, MapPin, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -43,7 +43,7 @@ function EventsList() {
             else if(eventsIndex == 0) {
                 setMinEventsIndex(true);
             }
-            const newFilteredEvents = events.filter(event => event.title.toLowerCase().includes(search.toLowerCase())).slice(eventsIndex, eventsIndex + 10);
+            const newFilteredEvents = events.filter(event => event.title.toLowerCase().includes(search.toLowerCase())|| event.description.toLowerCase().includes(search.toLowerCase())).slice(eventsIndex, eventsIndex + 10);
             setFilteredEvents(newFilteredEvents);
         }
     }, [search, events, eventsIndex]);
@@ -58,12 +58,12 @@ function EventsList() {
                 {filteredEvents && filteredEvents.length === 0 && <p>Aucun événement à afficher</p>}
                 {filteredEvents && filteredEvents.map(event => (
                     <li key={event.id}>
-                    <Card>
+                    <Card className="h-full">
                         <CardHeader>
-                        <CardTitle className="flex capitalize justify-between">{event.title}<EventDetails event={event} /></CardTitle>
-                        <CardDescription><p className='flex gap-1'><MapPin /><span>{event.location}</span></p></CardDescription>
+                        <CardTitle className="flex capitalize justify-between"><span className='overflow-hidden whitespace-nowrap text-ellipsis'>{event.title}</span><EventDetails event={event} /></CardTitle>
+                        <CardDescription><div className='flex items-center'><MapPin className="mr-1 h-4 w-4" /><span>{event.location}</span><Clock className="ml-1 mr-1 h-4 w-4" /><span>{event.time}</span></div></CardDescription>
                         </CardHeader>
-                        <CardContent className="overflow-hidden text-ellipsis whitespace-nowrap">
+                        <CardContent className="overflow-hidden line-clamp-6 whitespace-normal max-h-36 mb-2">
                         {event.description}
                         </CardContent>
                     </Card>

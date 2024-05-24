@@ -11,24 +11,31 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { Eye, MapPin, Clock } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Eye, MapPin, Clock, CircleUser } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import useUserData from '../hooks/useUserData';
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { firestore } from "../firebase";
 import { toast } from "sonner";
 
 function EventDetails({ event }) {
   const { user, loading } = useAuth();
   const userData = useUserData(user?.uid);
-  const [eventsJoined, setEventsJoined] = useState(userData?.eventsJoined || []);
+  const [eventsJoined, setEventsJoined] = useState([]);
+
+  const creatorData = useUserData(event.creator);
 
   useEffect(() => {
-    if (userData) {
+    if (userData && userData.eventsJoined) {
       setEventsJoined(userData.eventsJoined);
     }
   }, [userData]);
+
+  if(!creatorData) {
+    return
+  }
 
   if (loading) {
     return <p>Chargement de l&apos;utilisateur...</p>;
@@ -42,9 +49,11 @@ function EventDetails({ event }) {
     try {
       const docRef = doc(firestore, 'users', user.uid);
       await updateDoc(docRef, {
-        eventsJoined: [...eventsJoined, eventId],
+        eventsJoined: arrayUnion(eventId)
+      }).then(() => {
+        setEventsJoined(prev => [...prev, eventId]);
+        toast.success('Evènement rejoint avec succès');
       });
-      toast.success('Evènement rejoint avec succès');
     } catch (error) {
       toast.error("Une erreur est survenue lors de la partcipation à l'événement");
     }
@@ -60,17 +69,28 @@ function EventDetails({ event }) {
   </DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>
-      <DrawerTitle className="mb-4 text-4xl">{event.title}</DrawerTitle>
+      <DrawerTitle className="flex justify-between mb-4 text-4xl">
+        <span>{event.title}</span>
+      </DrawerTitle>
       <DrawerDescription className='flex flex-col gap-2'>
         <div className="flex gap-2"><MapPin />{event.location}</div>
         <div className="flex gap-2"><Clock />{event.time}</div>
-        <div className="flex gap-2">{}</div>
+        <div className="flex items-center gap-2">
+          <CircleUser />
+          <span className="flex items-center gap-2 text-lg">
+            <Avatar className="w-6 h-6">
+                <AvatarImage src={creatorData.photoURL} alt="Avatar" />
+                <AvatarFallback>{creatorData.username.charAt(0) + creatorData.username.charAt(creatorData.username.length-1)}</AvatarFallback>
+            </Avatar>
+            {creatorData.username}
+          </span>
+        </div>
         <Separator />
         <p>{event.description}</p>
       </DrawerDescription>
     </DrawerHeader>
     <DrawerFooter>
-      <Button onClick={() => handleJoin(event.id)}>Rejoindre</Button>
+      <Button disabled={!user} onClick={() => handleJoin(event.id)}>Rejoindre</Button>
       <DrawerClose>
         <Button variant="secondary">Fermer</Button>
       </DrawerClose>
