@@ -27,7 +27,7 @@ function NavBar() {
         return <p>Chargement de l&apos;utilisateur...</p>;
     }
     return (
-        <NavigationMenu className="fixed top-0 left-0 justify-end items-center border-b border-zinc-300 p-2 w-screen max-w-screen">
+        <NavigationMenu className="fixed top-0 left-0 justify-end items-center bg-zinc-100 border-b border-zinc-300 p-2 w-screen max-w-screen pr-6">
         <NavigationMenuList>
             <NavigationMenuItem>
                     <Link className={navigationMenuTriggerStyle()} to="/"><NavigationMenuLink>Lyyda</NavigationMenuLink></Link>

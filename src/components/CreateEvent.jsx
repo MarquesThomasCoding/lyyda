@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-import { DatePickerWithRange } from './DatePicker';
-import { addDays } from "date-fns";
+import { DatePicker } from './DatePicker';
 
 import { toast } from "sonner"
 
@@ -24,17 +23,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import TimePicker from './TimePicker';
 
 
 function CreateEvent() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [selectedDateRange, setSelectedDateRange] = useState({
-    from: new Date(),
-    to: addDays(new Date(), 0),
-  });
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
   const navigate = useNavigate();
@@ -47,18 +42,10 @@ function CreateEvent() {
     return <p>Chargement de l&apos;utilisateur...</p>;
   }
 
-  const handleDateChange = (dateRange) => {
-    setSelectedDateRange(dateRange);
-  };
-
-  const handleTimeChange = (newTime) => {
-    setTime(newTime);
-  };
-
   const handleCreateEvent = async (e) => {
     e.preventDefault();
 
-    if(!title || !description || !selectedDateRange || !time || !location) {
+    if(!title || !description || !selectedDate || !time || !location) {
       setShowError(true);
       return;
     }
@@ -67,7 +54,7 @@ function CreateEvent() {
       const eventRef = await addDoc(collection(firestore, 'events'), {
         title,
         description,
-        selectedDateRange,
+        selectedDate,
         time,
         location,
         createdAt: new Date(),
@@ -87,18 +74,18 @@ function CreateEvent() {
   return (
       <Sheet>
         {user &&
-        <SheetTrigger className='flex items-center'><Button ><PlusCircle className="mr-2 h-4 w-4" />Créer un évènement</Button></SheetTrigger>
+        <SheetTrigger className='flex items-center'><Button ><PlusCircle className="mr-2 h-4 w-4" /><span className="max-[400px]:hidden">Créer un évènement</span></Button></SheetTrigger>
         }
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Créer un évènement</SheetTitle>
             <SheetDescription>
-              <form onSubmit={handleCreateEvent} className='flex flex-col gap-4 text-slate-200'>
+              <form onSubmit={handleCreateEvent} className='flex flex-col gap-4'>
                 {showError && <p className='text-red-600 bg-red-200 border border-red-600 p-4 rounded-xl'>Vous n&#39;avez pas rempli tous les champs</p>}
                 <Input type="text" placeholder="Titre de l'évènement" value={title} onChange={(e) => setTitle(e.target.value)}/>
                 <Textarea className=" resize-none h-32" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description de l'événement" />
-                <DatePickerWithRange onDateChange={handleDateChange} />
-                <TimePicker selectedTime={time} onTimeChange={handleTimeChange} />
+                <DatePicker date={selectedDate} setDate={setSelectedDate} />
+                <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                 <Input  type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lieu de l'événement" />
                 <Button type="submit">Créer l&apos;événement</Button>
               </form>

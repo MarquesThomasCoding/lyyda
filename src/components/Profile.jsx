@@ -26,21 +26,19 @@ function Profile() {
 
     const [username, setUsername] = useState('');
     const [bio, setBio] = useState('');
+    const [avatar, setAvatar] = useState('');
     const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
         if (userData) {
             setUsername(userData.username);
-            setBio(userData.biography);
+            setBio(userData.bio);
+            setAvatar(userData.photoURL);
         }
     }, [userData]);
 
     const handleUpdateProfile = async (e) => {
         e.preventDefault();
-        if (!username || !bio) {
-          toast.error('Veuillez remplir tous les champs.');
-          return;
-        }
     
         setUpdating(true);
     
@@ -79,8 +77,8 @@ function Profile() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Avatar className="w-14 h-14">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
+                            <AvatarImage src={avatar} alt="Avatar" />
+                            <AvatarFallback>{username.charAt(0) + username.charAt(username.length-1)}</AvatarFallback>
                         </Avatar>
                         {username}
                     </CardTitle>
