@@ -22,19 +22,19 @@ function EventsList() {
 
 
     const handleNext = () => {
-        setEventsIndex(eventsIndex + 10);
+        setEventsIndex(eventsIndex + 9);
     }
 
     const handlePrevious = () => {
-        setEventsIndex(eventsIndex - 10);
+        setEventsIndex(eventsIndex - 9);
     }
 
     useEffect(() => {
         if(events) {
-            if(eventsIndex + 10 >= events.length) {
+            if(eventsIndex + 9 >= events.length) {
                 setMaxEventsIndex(true);
             }
-            else if(eventsIndex + 10 < events.length) {
+            else if(eventsIndex + 9 < events.length) {
                 setMaxEventsIndex(false);
             }
             if(eventsIndex > 0) {
@@ -43,7 +43,7 @@ function EventsList() {
             else if(eventsIndex == 0) {
                 setMinEventsIndex(true);
             }
-            const newFilteredEvents = events.filter(event => event.title.toLowerCase().includes(search.toLowerCase())|| event.description.toLowerCase().includes(search.toLowerCase())).slice(eventsIndex, eventsIndex + 10);
+            const newFilteredEvents = events.filter(event => event.title.toLowerCase().includes(search.toLowerCase())|| event.description.toLowerCase().includes(search.toLowerCase())).slice(eventsIndex, eventsIndex + 9);
             setFilteredEvents(newFilteredEvents);
         }
     }, [search, events, eventsIndex]);
