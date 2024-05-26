@@ -29,7 +29,7 @@ function NavBar() {
         <p className="text-2xl">LYYDA</p>
         <NavigationMenuList className="flex gap-2">
             <NavigationMenuItem>
-                    <Link className={navigationMenuTriggerStyle()} to="/"><NavigationMenuLink className="flex items-center"><Home className="mr-2 h-4 w-4" />Accueil</NavigationMenuLink></Link>
+                    <Link className={navigationMenuTriggerStyle()} to="/"><NavigationMenuLink className="flex items-center"><Home className="mr-2 h-4 w-4" /><span className="max-[500px]:hidden">Accueil</span></NavigationMenuLink></Link>
             </NavigationMenuItem>
             {!user &&
             <NavigationMenuItem>
