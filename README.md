@@ -25,7 +25,7 @@ npm start
 - Modifier un évènement
 - Supprimer un évènement
 - Voir la liste des évènements
-- Voir la carte interactive des de la localisation de l'évènement
+- Voir la carte interactive de la localisation de l'évènement
 - Rechercher un évènement
 - Voir les détails d'un évènement
 - S'inscrire à un évènement
