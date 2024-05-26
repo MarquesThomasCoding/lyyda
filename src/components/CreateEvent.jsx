@@ -76,7 +76,7 @@ function CreateEvent() {
   return (
       <Sheet>
         {user &&
-        <SheetTrigger className='flex items-center'><Button ><PlusCircle className="mr-2 h-4 w-4" /><span className="max-[400px]:hidden">Créer un évènement</span></Button></SheetTrigger>
+        <SheetTrigger className='flex items-center'><Button ><PlusCircle className="mr-2 h-4 w-4" /><span className="max-[500px]:hidden">Créer un évènement</span></Button></SheetTrigger>
         }
         <SheetContent>
           <SheetHeader>
