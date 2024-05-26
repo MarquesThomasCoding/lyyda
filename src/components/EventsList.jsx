@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 import { collection, query, orderBy } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Search, MapPin, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { Search, MapPin, ChevronLeft, ChevronRight, Clock, ArrowDown01, ArrowDownAZ } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import EventDetails from './EventDetails';
 import { firestore } from '../firebase';
 import { useEffect, useState } from 'react';
+  
 
 function EventsList() {
     const eventsRef = collection(firestore, 'events');
@@ -53,6 +54,7 @@ function EventsList() {
             <SearchBar search={search} setSearch={setSearch} />
             {loading && <p className='border border-gray p-4 rounded-xl mt-10'>Chargement des événements...</p>}
             {error && <p className='text-red-400 bg-red-200 border border-red-400 p-4 rounded-xl mt-10'>Erreur : {error.message}</p>}
+            <FiltersComponent filteredEvents={filteredEvents} setFilteredEvents={setFilteredEvents} />
     
             <ul className='grid grid-cols-3 gap-4 mt-10 max-[900px]:grid-cols-2 max-[700px]:grid-cols-1'>
                 {filteredEvents && filteredEvents.length === 0 && <p>Aucun événement à afficher</p>}
@@ -88,6 +90,33 @@ function SearchBar({ search, setSearch }) {
         <div className="relative flex w-auto items-center space-x-2 mt-20">
             <Search className='absolute top-2 left-4 text-zinc-400' />
             <Input className="pl-10" type="text" placeholder="Recherchez un évènement" value={search} onChange={handleSearch} />
+        </div>
+    )
+}
+
+function FiltersComponent({ filteredEvents, setFilteredEvents }) {
+
+    const handleSortByDate = () => {
+        const sortedEvents = [...filteredEvents].sort((a, b) => b.selectedDate.toDate() - a.selectedDate.toDate());
+        setFilteredEvents(sortedEvents);
+    }
+
+    const handleSortByAZ = () => {
+        const sortedEvents = [...filteredEvents].sort((a, b) => a.title.localeCompare(b.title));
+        setFilteredEvents(sortedEvents);
+    }
+
+    return (
+        <div className='flex justify-between gap-4 mt-10'>
+            <div>
+                {/* Filtre par utilisateur */}
+            </div>
+            <div className='flex items-center gap-2'>
+                {/* Tri par date la plus récente */}
+                <Button onClick={handleSortByDate}>Date <ArrowDown01 className="ml-1 h-4 w-4" /></Button>
+                {/* Tri par ordre alphabetique */}
+                <Button onClick={handleSortByAZ}>A-Z <ArrowDownAZ className="ml-1 h-4 w-4" /></Button>
+            </div>
         </div>
     )
 }

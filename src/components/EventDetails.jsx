@@ -19,6 +19,7 @@ import useUserData from '../hooks/useUserData';
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { firestore } from "../firebase";
 import { toast } from "sonner";
+import MapComponent from "./MapComponent";
 
 function EventDetails({ event }) {
   const { user, loading } = useAuth();
@@ -89,6 +90,7 @@ function EventDetails({ event }) {
         <p>{event.description}</p>
       </DrawerDescription>
     </DrawerHeader>
+    <MapComponent address={event.location} />
     <DrawerFooter>
       <Button disabled={!user} onClick={() => handleJoin(event.id)}>Rejoindre</Button>
       <DrawerClose>

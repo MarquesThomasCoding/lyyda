@@ -24,6 +24,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
+import AddressAutocomplete from './AddressAutocomplete';
+
 
 function CreateEvent() {
 
@@ -86,7 +88,7 @@ function CreateEvent() {
                 <Textarea className=" resize-none h-32" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description de l'événement" />
                 <DatePicker date={selectedDate} setDate={setSelectedDate} />
                 <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-                <Input  type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lieu de l'événement" />
+                <AddressAutocomplete location={location} setLocation={setLocation} />
                 <Button type="submit">Créer l&apos;événement</Button>
               </form>
             </SheetDescription>

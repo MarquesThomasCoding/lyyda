@@ -31,7 +31,6 @@ export function DatePicker({ date, setDate }) {
           selected={date}
           onSelect={(date) => {
             setDate(date)
-            console.log(date)
           }}
           initialFocus
         />
