@@ -23,6 +23,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 import AddressAutocomplete from './AddressAutocomplete';
 
@@ -34,6 +42,7 @@ function CreateEvent() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
+  const [tag, setTag] = useState('none');
   const navigate = useNavigate();
 
   const [showError, setShowError] = useState(false);
@@ -59,6 +68,7 @@ function CreateEvent() {
         selectedDate,
         time,
         location,
+        tag,
         createdAt: new Date(),
         creator: user.uid,
       });
@@ -84,12 +94,31 @@ function CreateEvent() {
             <SheetDescription>
               <form onSubmit={handleCreateEvent} className='flex flex-col gap-4'>
                 {showError && <p className='text-red-600 bg-red-200 border border-red-600 p-4 rounded-xl'>Vous n&#39;avez pas rempli tous les champs</p>}
+                
                 <Input type="text" placeholder="Titre de l'évènement" value={title} onChange={(e) => setTitle(e.target.value)}/>
+                
                 <Textarea className=" resize-none h-32" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description de l'événement" />
+                
                 <DatePicker date={selectedDate} setDate={setSelectedDate} />
+
                 <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+
                 <AddressAutocomplete location={location} setLocation={setLocation} />
+
+                <Select onValueChange={(value) => setTag(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Catégorie" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
+                    <SelectItem value="culture">Culture</SelectItem>
+                    <SelectItem value="children">Enfants</SelectItem>
+                    <SelectItem value="vehicles">Véhicules</SelectItem>
+                  </SelectContent>
+                </Select>
+                
                 <Button type="submit">Créer l&apos;événement</Button>
+              
               </form>
             </SheetDescription>
           </SheetHeader>
