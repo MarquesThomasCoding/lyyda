@@ -7,6 +7,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuGroup
   } from "@/components/ui/dropdown-menu"
+import { Skeleton } from "./ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, User, Calendar, GalleryVerticalEnd } from 'lucide-react';
 import { useLogout } from '../firebase';
@@ -31,14 +32,14 @@ function DropDown() {
     }, [userData]);
 
     if (authLoading) {
-        return <p>Chargement de l&apos;utilisateur...</p>;
+        return <><Skeleton className="aspect-square h-10 w-10 rounded-full" /></>;
     }
 
     return (
         <DropdownMenu>
             {user &&
             <DropdownMenuTrigger>
-              <Avatar>
+                <Avatar>
                     <AvatarImage src={avatar} />
                     <AvatarFallback>{username ? username[0] : user.email[0]}</AvatarFallback>
                 </Avatar>

@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import EditProfile from './components/EditProfile';
 import Profile from './components/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import { Toaster } from "@/components/ui/sonner"
@@ -54,6 +55,16 @@ function App() {
         } />
         {/* Profil */}
         <Route path="/profile" element={
+          <PrivateRoute>
+            <main className='flex min-h-screen'>
+              <div className='flex w-full'>
+                <EditProfile />
+              </div>
+            </main>
+          </PrivateRoute>
+        } />
+        {/* Page profil avec paramètre ?id= */}
+        <Route path="/profile/:id" element={
           <PrivateRoute>
             <main className='flex min-h-screen'>
               <div className='flex w-full'>

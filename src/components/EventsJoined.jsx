@@ -37,14 +37,6 @@ function EventsJoined() {
     const q = query(eventsRef, orderBy('createdAt', 'desc'), where('id', 'in', eventsJoined));
     const [events, loadingEvents, error] = useCollectionData(q, { idField: 'id' });
 
-    if(loading || loadingEvents) {
-        return <p>Chargement des événements...</p>
-    }
-
-    if(error) {
-        return <p>Erreur : {error.message}</p>
-    }
-
     const handleQuit = async (eventId) => {
         try {
             const docRef = doc(firestore, 'users', user.uid);
@@ -62,6 +54,20 @@ function EventsJoined() {
         } catch (error) {
             console.error("Erreur lors de la suppression de l'événement", error);
         }
+    }
+
+    if(loading || loadingEvents) {
+        return <>
+            <NavBar />
+            <p>Chargement des évènements...</p>
+        </>
+    }
+
+    if(error) {
+        return <>
+            <NavBar />
+            <p>Erreur : {error.message}</p>
+        </>
     }
 
     return (

@@ -20,6 +20,7 @@ import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { firestore } from "../firebase";
 import { toast } from "sonner";
 import MapComponent from "./MapComponent";
+import { Link } from 'react-router-dom';
 
 function EventDetails({ event }) {
   const { user, loading } = useAuth();
@@ -78,13 +79,15 @@ function EventDetails({ event }) {
         <div className="flex gap-2"><Clock />{event.time}</div>
         <div className="flex items-center gap-2">
           <CircleUser />
-          <span className="flex items-center gap-2 text-lg">
-            <Avatar className="w-6 h-6">
-                <AvatarImage src={creatorData.photoURL} alt="Avatar" />
-                <AvatarFallback>{creatorData.username.charAt(0) + creatorData.username.charAt(creatorData.username.length-1)}</AvatarFallback>
-            </Avatar>
-            {creatorData.username}
-          </span>
+          <Link to={"/profile/" + creatorData.uid}>
+            <span className="flex items-center gap-2 text-lg">
+              <Avatar className="w-6 h-6">
+                  <AvatarImage src={creatorData.photoURL} alt="Avatar" />
+                  <AvatarFallback>{creatorData.username.charAt(0) + creatorData.username.charAt(creatorData.username.length-1)}</AvatarFallback>
+              </Avatar>
+              {creatorData.username}
+            </span>
+          </Link>
         </div>
         <Separator />
         <p>{event.description}</p>

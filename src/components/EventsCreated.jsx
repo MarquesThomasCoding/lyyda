@@ -31,11 +31,17 @@ function EventsCreated() {
     const [events, loadingEvents, error] = useCollectionData(q, { idField: 'id' });
 
     if(loading || loadingEvents) {
-        return <p>Chargement des événements...</p>
+        return <>
+            <NavBar />
+            <p>Chargement des évènements...</p>
+        </>
     }
 
     if(error) {
-        return <p>Erreur : {error.message}</p>
+        return <>
+            <NavBar />
+            <p>Erreur : {error.message}</p>
+        </>
     }
 
     return (

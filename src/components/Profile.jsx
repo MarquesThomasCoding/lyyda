@@ -1,115 +1,44 @@
+import { useParams } from "react-router-dom";
+import useUserData from "../hooks/useUserData";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
 import NavBar from "./NavBar";
-import useAuth from '../hooks/useAuth';
-import useUserData from '../hooks/useUserData';
-import { useEffect, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
-import { firestore } from "../firebase";
-import { toast } from "sonner";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "./ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-  
+import { UserPlus } from "lucide-react";
 
 function Profile() {
-    const { user, loading } = useAuth();
-    const userData = useUserData(user?.uid);
+    // Récupérer les paramètres de l'URL
+    const { id } = useParams();
 
-    const [username, setUsername] = useState('');
-    const [bio, setBio] = useState('');
-    const [avatar, setAvatar] = useState('');
-    const [updating, setUpdating] = useState(false);
-
-    useEffect(() => {
-        if (userData) {
-            setUsername(userData.username);
-            setBio(userData.bio);
-            setAvatar(userData.photoURL);
-        }
-    }, [userData]);
-
-    const handleUpdateProfile = async (e) => {
-        e.preventDefault();
-    
-        setUpdating(true);
-    
-        try {
-          const docRef = doc(firestore, 'users', user.uid);
-          await updateDoc(docRef, {
-            username,
-            bio,
-          });
-          toast.success('Profil mis à jour avec succès');
-        } catch (error) {
-          toast.error("Une erreur est survenue lors de la mise à jour du profil");
-          console.error('Error updating profile:', error);
-        } finally {
-          setUpdating(false);
-        }
-      };
-
-    if (loading) {
-    return <p>Chargement...</p>;
-    }
-
-    if (!user) {
-    return <p>Vous devez être connecté pour accéder à cette page.</p>;
-    }
-
-    if (!userData) {
-    return <p>Chargement des données de l&#39;utilisateur...</p>;
-    }
+    // Récupérer les données de l"utilisateur avec l'ID
+    const userData = useUserData(id);
 
     return (
         <>
             <NavBar />
-            
-            <Card className="w-full m-4 mt-20">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Avatar className="w-14 h-14">
-                            <AvatarImage src={avatar} alt="Avatar" />
-                            <AvatarFallback>{username.charAt(0) + username.charAt(username.length-1)}</AvatarFallback>
+            {!userData && <p>Utilisateur introuvable</p>}
+            {userData &&
+            <>
+                <Card className="w-full m-20 max-md:m-4 max-md:mt-20">
+                    <CardHeader>
+                        <Avatar className="w-20 h-20">
+                            <AvatarImage src={userData.photoURL} alt={userData.username} />
+                            <AvatarFallback>{userData.username.charAt(0) + userData.username.charAt(userData.username.length-1)}</AvatarFallback>
                         </Avatar>
-                        {username}
-                    </CardTitle>
-                    <CardDescription>{bio}</CardDescription>
-                </CardHeader>
-                <Separator />
-                <CardContent className="pt-10">
-                    <form onSubmit={handleUpdateProfile}>
-                        <Label htmlFor="username">Nom d&apos;utilisateur</Label>
-                        <Input 
-                            className="mt-2 mb-6"
-                            type="text" 
-                            id="username"
-                            placeholder="Nom d'utilisateur" 
-                            value={username} 
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                        <Label htmlFor="biography">Biographie</Label>
-                        <Textarea 
-                            className="mt-2 mb-6 resize-none"
-                            id="biography"
-                            placeholder="Biographie" 
-                            value={bio} 
-                            onChange={(e) => setBio(e.target.value)}
-                        />
-                        <Button type="submit" disabled={updating}>
-                            {updating ? 'Mise à jour...' : 'Mettre à jour'}
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
+                        <CardTitle>{userData.username}</CardTitle>
+                        <Separator />
+                    </CardHeader>
+                    <CardContent>
+                        <CardDescription>{userData.bio}</CardDescription>
+                    </CardContent>
+
+                    <CardFooter>
+                        <Button ><UserPlus className="mr-1 h-4 w-4" /> Suivre</Button>
+                    </CardFooter>
+                </Card>
+            </>
+            }
         </>
     )
 }
