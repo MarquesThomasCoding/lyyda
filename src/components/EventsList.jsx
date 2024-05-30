@@ -63,7 +63,7 @@ function EventsList() {
                     <Card className="h-full">
                         <CardHeader>
                         <CardTitle className="flex capitalize justify-between"><span className='overflow-hidden whitespace-nowrap text-ellipsis'>{event.title}</span><EventDetails event={event} /></CardTitle>
-                        <CardDescription><div className='flex items-center'><MapPin className="mr-1 h-4 w-4" /><span>{event.location}</span><Clock className="ml-1 mr-1 h-4 w-4" /><span>{event.time}</span></div></CardDescription>
+                        <CardDescription><div className='flex items-center'><MapPin className="mr-1 h-4 w-4" /><span className='overflow-hidden whitespace-nowrap text-ellipsis'>{event.location}</span><Clock className="ml-1 mr-1 h-4 w-4" /><span>{event.time}</span></div></CardDescription>
                         </CardHeader>
                         <CardContent className="overflow-hidden line-clamp-6 whitespace-normal max-h-36 mb-2">
                         {event.description}
