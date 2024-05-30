@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { collection, query, orderBy } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Search, MapPin, ChevronLeft, ChevronRight, Clock, ArrowDown01, ArrowDownAZ } from 'lucide-react';
+import { Search, MapPin, ChevronLeft, ChevronRight, Clock, ArrowDown01, ArrowDownAZ, Calendar } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -63,7 +63,19 @@ function EventsList() {
                     <Card className="h-full">
                         <CardHeader>
                         <CardTitle className="flex capitalize justify-between"><span className='overflow-hidden whitespace-nowrap text-ellipsis'>{event.title}</span><EventDetails event={event} /></CardTitle>
-                        <CardDescription><div className='flex items-center'><MapPin className="mr-1 h-4 w-4" /><span className='overflow-hidden whitespace-nowrap text-ellipsis'>{event.location}</span><Clock className="ml-1 mr-1 h-4 w-4" /><span>{event.time}</span></div></CardDescription>
+                        <CardDescription>
+                            <div className='flex flex-col'>
+                                <div className='flex items-center'>
+                                    <MapPin className="mr-1 h-4 w-4" /><span className='overflow-hidden whitespace-nowrap text-ellipsis'>{event.location}</span>
+                                </div>
+                                <div className='flex items-center'>
+                                    <Calendar className="mr-1 h-4 w-4" /><span>{event.selectedDate.toDate().toLocaleDateString()}</span>
+                                </div>
+                                <div className='flex items-center'>
+                                    <Clock className="mr-1 h-4 w-4" /><span>{event.time}</span>
+                                </div>
+                            </div>
+                        </CardDescription>
                         </CardHeader>
                         <CardContent className="overflow-hidden line-clamp-6 whitespace-normal max-h-36 mb-2">
                         {event.description}

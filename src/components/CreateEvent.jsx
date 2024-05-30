@@ -13,7 +13,7 @@ import { DatePicker } from './DatePicker';
 
 import { toast } from "sonner"
 
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Baby, Car, Book } from 'lucide-react';
 
 import {
   Sheet,
@@ -111,9 +111,9 @@ function CreateEvent() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">Aucune</SelectItem>
-                    <SelectItem value="culture">Culture</SelectItem>
-                    <SelectItem value="children">Enfants</SelectItem>
-                    <SelectItem value="vehicles">Véhicules</SelectItem>
+                      <SelectItem value="culture"><div className='flex items-center gap-1'><Book className='mr-1 h-4 w-4' />Culture</div></SelectItem>
+                      <SelectItem value="children"><div className='flex items-center gap-1'><Baby className='mr-1 h-4 w-4' />Enfants</div></SelectItem>
+                      <SelectItem value="vehicles"><div className='flex items-center gap-1'><Car className='mr-1 h-4 w-4' />Véhicules</div></SelectItem>
                   </SelectContent>
                 </Select>
                 
