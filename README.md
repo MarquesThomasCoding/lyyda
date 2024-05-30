@@ -75,10 +75,7 @@ npm start
 ## A faire
 
 - [ ] Ajouter des filtres de recherche
-- [ ] Ajouter des catégories d'évènements
-- [ ] Ajouter des tags aux évènements
 - [ ] Ajouter des tags aux utilisateurs
-- [ ] Ajouter une carte intéractive de tous les évènements
 
 ## Technologies utilisées
 - [React](https://reactjs.org/)

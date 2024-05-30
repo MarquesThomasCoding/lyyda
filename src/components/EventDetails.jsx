@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Eye, MapPin, Clock, CircleUser } from 'lucide-react';
+import { Eye, MapPin, Clock, CircleUser, Tag } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import useUserData from '../hooks/useUserData';
@@ -91,6 +91,7 @@ function EventDetails({ event }) {
           </Link>
         </div>
         <div className="flex gap-2">
+          <Tag />
           <Badge >{event.tag}</Badge>
         </div>
         <Separator />
