@@ -26,7 +26,7 @@ function NavBar() {
     }
     return (
         <NavigationMenu className="fixed top-0 left-0 justify-between items-center border-b p-2 w-screen max-w-screen pr-6">
-        <p className="text-2xl">LYYDA</p>
+        <p className="text-2xl">λYYDA</p>
         <NavigationMenuList className="flex gap-2">
             <NavigationMenuItem>
                     <Link className={navigationMenuTriggerStyle()} to="/"><NavigationMenuLink className="flex items-center"><Home className="mr-2 h-4 w-4" /><span className="max-[500px]:hidden">Accueil</span></NavigationMenuLink></Link>
